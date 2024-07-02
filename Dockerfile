@@ -4,8 +4,9 @@ WORKDIR /tmp/
 RUN mkdir -p /tmp/boxfuse/
 RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello
 WORKDIR /boxfuse-sample-java-war-hello/
-RUN mvn package
+RUN mvn --version
 RUN cd /target/
+RUN pwd
 RUN file="$(ls -1 /home/boxfuse/boxfuse-sample-java-war-hello/target/)" && echo $file
 
 CMD ["catalina.sh", "run"]
