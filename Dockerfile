@@ -1,5 +1,6 @@
 FROM ubuntu:18.04
-RUN apt update && apt install tomcat9 -y && apt install maven -y
+RUN apt update
+RUN apt install tomcat9 -y && apt install maven -y
 RUN mkdir -p /home/boxfuse/
 WORKDIR /home/boxfuse/
 RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello
