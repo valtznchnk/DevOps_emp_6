@@ -7,5 +7,5 @@ RUN git clone https://github.com/vinayakrj/java-war-project.git
 WORKDIR /java-war-project/
 RUN mvn package
 WORKDIR /tmp/boxfuse/java-war-project/target/
-COPY /tmp/boxfuse/java-war-project/target/my-app.war /var/lib/tomcat9/webapps/
+RUN cp /tmp/boxfuse/java-war-project/target/my-app.war /var/lib/tomcat9/webapps/
 CMD ["catalina.sh", "run"]
