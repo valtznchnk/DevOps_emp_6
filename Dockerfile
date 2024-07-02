@@ -7,5 +7,5 @@ WORKDIR /boxfuse-sample-java-war-hello/
 RUN mvn package
 RUN cd /target/
 RUN file="$(ls -1 /home/boxfuse/boxfuse-sample-java-war-hello/target/)" && echo $file
-COPY /tmp/boxfuse/boxfuse-sample-java-war-hello/target/hello-1.0.war /var/lib/tomcat9/webapps/
+
 CMD ["catalina.sh", "run"]
