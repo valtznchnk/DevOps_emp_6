@@ -7,5 +7,5 @@ WORKDIR /boxfuse-sample-java-war-hello/
 RUN mvn --version
 WORKDIR /tmp/boxfuse/boxfuse-sample-java-war-hello/target/
 RUN pwd
-#RUN file="$(ls -1 /home/boxfuse/boxfuse-sample-java-war-hello/target/)" && echo $file
+RUN file="$(ls -1 /home/boxfuse/boxfuse-sample-java-war-hello/target/)" && echo $file
 CMD ["catalina.sh", "run"]
