@@ -1,23 +1,33 @@
-FROM ubuntu:latest
+# Use a minimal base image
+FROM ubuntu:20.04
 
-ENV TOMCAT_VERSION 9.0.71
-ENV CATALINA_HOME /usr/local/tomcat
-ENV JAVA_HOME /usr/lib/jvm/java-18-openjdk-amd64
+# Set the Tomcat version
+ENV TOMCAT_VERSION 10.1.25
+
+# Install dependencies
+RUN apt update && \
+    apt install -y openjdk-11-jdk wget && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and extract Tomcat
+RUN wget -O /tmp/tomcat.tar.gz https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    tar xf /tmp/tomcat.tar.gz -C /opt && \
+    rm /tmp/tomcat.tar.gz && \
+    mv /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
+
+# Set environment variables
+ENV CATALINA_HOME /opt/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 
-RUN apt-get -y update
-RUN apt-get -y install openjdk-18-jdk wget
+# Expose Tomcat port
+EXPOSE 8080
 
-
-RUN mkdir $CATALINA_HOME
-RUN wget https://archive.apache.org/dist/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/tomcat.tar.gz
-RUN cd /tmp && tar xvfz tomcat.tar.gz
-RUN cp -Rv /tmp/apache-tomcat-${TOMCAT_VERSION}/* $CATALINA_HOME
-RUN rm -rf /tmp/apache-tomcat-${TOMCAT_VERSION}
-RUN rm -rf /tmp/tomcat.tar.gz
-
-# Expose Tomcat port.
-EXPOSE 80
+# Clean up unnecessary files
+RUN apt purge -y openjdk-11-jdk wget && \
+    apt autoremove -y && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/* /opt/tomcat/webapps/*
 
 # Start Tomcat
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
