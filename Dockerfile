@@ -7,4 +7,4 @@ WORKDIR /tmp/java-war-project/
 RUN mvn package
 WORKDIR /tmp/java-war-project/target/
 RUN cp /tmp/java-war-project/target/my-app.war /var/lib/tomcat9/webapps/
-CMD ["catalina.sh", "run"]
+CMD /usr/local/tomcat/bin/catalina.sh run
